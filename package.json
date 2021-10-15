@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon --exec babel-node ./server/index.js",
     "test": "jest",
-    "star": "sequelize-auto -o ./schemas -d mekxhnxq -h fanny.db.elephantsql.com -u mekxhnxq -p 5432 -x ALm22fsmhZWwuu7OKv4ayZvlKFMnBKYY -e postgres"
+    "reverse:db": "sequelize-auto -o ./schemas -d mekxhnxq -h fanny.db.elephantsql.com -u mekxhnxq -p 5432 -x ALm22fsmhZWwuu7OKv4ayZvlKFMnBKYY -e postgres"
   },
   "author": "chalid, supriyandi, rifqi",
   "license": "ISC",
