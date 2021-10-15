@@ -59,6 +59,15 @@ module.exports = function(sequelize, DataTypes) {
     sequelize,
     tableName: 'orders',
     schema: 'public',
-    timestamps: false
+    timestamps: false,
+    indexes: [
+      {
+        name: "order_name_pk",
+        unique: true,
+        fields: [
+          { name: "order_name" },
+        ]
+      },
+    ]
   });
 };

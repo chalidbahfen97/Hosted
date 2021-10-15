@@ -79,6 +79,15 @@ module.exports = function(sequelize, DataTypes) {
     sequelize,
     tableName: 'houses_reserve_lines',
     schema: 'public',
-    timestamps: false
+    timestamps: false,
+    indexes: [
+      {
+        name: "hrit_id_pk",
+        unique: true,
+        fields: [
+          { name: "hrit_id" },
+        ]
+      },
+    ]
   });
 };
