@@ -7,7 +7,7 @@ import helmet from "helmet";
 import middleware from "./helpers/middleware";
 
 //access db
-import models, { sequelize } from "./models/IndexModel";
+import models, { sequelize } from "./models/indexModels";
 import routes from "./routes/IndexRoute";
 import authJWT from "./helpers/authJWT";
 import { authenticate } from "passport";
@@ -35,7 +35,7 @@ app.use(async (req, res, next) => {
 // app.use("/hosted/", (req, res) => {
 //   res.send("makes the best moment with hosted");
 // });
-//call route
+
 // call routes
 app.post(
   process.env.URL_DOMAIN + "/login",
@@ -47,8 +47,8 @@ app.get(process.env.URL_DOMAIN + "/me", authJWT.ensureAdmin, (req, res) => {
   res.json("coo");
 });
 
-app.use("/api/bank", routes.BankRoute);
-app.use("/api/users", routes.UsersRoute);
+app.use(process.env.URL_API + "/bank", routes.BankRoute);
+app.use(process.env.URL_API + "/users", routes.UsersRoute);
 
 //use middleware to handle error from others modules
 app.use(middleware.handleError);

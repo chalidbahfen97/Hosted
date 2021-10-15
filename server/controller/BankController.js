@@ -1,4 +1,4 @@
-import { sequelize } from "../models/IndexModel";
+import { sequelize } from "../models/indexModels";
 
 const findBankBySQL = async (req, res) => {
   const result = await sequelize.query("select bank_id, bank_name from bank", {

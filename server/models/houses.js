@@ -63,6 +63,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: true
     },
+    house_approval: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true
+    },
     house_hosted_account: {
       type: DataTypes.STRING(10),
       allowNull: true,
