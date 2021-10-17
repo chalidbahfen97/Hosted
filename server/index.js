@@ -6,6 +6,9 @@ import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import models, { sequelize } from "./models/indexModels";
 
+// call routes
+import routes from "./routes/IndexRoute"
+
 const port = process.env.PORT || 1337;
 
 const app = express();
@@ -26,6 +29,8 @@ app.use(async (req, res, next) => {
   req.context = { models };
   next();
 });
+
+app.use(process.env.URL_API + "/houses", routes.HouseRoute);
 
 const dropDatabaseSync = false;
 sequelize.sync({ force: dropDatabaseSync })
