@@ -13,6 +13,28 @@ const findAllRows = async (req, res) => {
   }
 }
 
+const findHouseById = async (req, res, next) => {
+  const { houseId } = req.params;
+
+  const dataImages = await IndexController.HouseImageCtrl.findHouseImagesById(req);
+
+  try {
+
+    const result = await req.context.models.houses.findOne({
+      where: {
+        house_id: houseId
+      }
+    })
+
+    return res.status(200).json({
+      house: result,
+      houseImages: dataImages
+    })
+  } catch (error) {
+    return res.send(error);
+  }
+}
+
 const createHouse = async (req, res) => {
   //process.cwd return value working directory
   // __dir return value module directory
@@ -217,6 +239,7 @@ const createHouseImage = async (req, res, next) => {
 
 export default {
   findAllRows,
+  findHouseById,
   createHouse,
   createHouseImage,
   deleteHouse
