@@ -26,6 +26,10 @@ module.exports = function(sequelize, DataTypes) {
         model: 'houses',
         key: 'house_id'
       }
+    },
+    hobed_status: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true
     }
   }, {
     sequelize,

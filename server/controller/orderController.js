@@ -38,7 +38,6 @@ const findRowById = async (req, res) => {
 const createRow = async (req, res) => {
   try {
     const {
-      order_name,
       order_created,
       order_subtotal,
       order_qty,
