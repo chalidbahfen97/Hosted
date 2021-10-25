@@ -17,7 +17,7 @@ const topUp = async (req, res) => {
       return res.send({ message: "Saldo Anda Tidak Cukup" });
     }
 
-    const saldoAccPayment = accPayment.dataValues.acc_saldo + amount;
+    const saldoAccPayment = amount + parseInt(accPayment.dataValues.acc_saldo);
     const updateAccPayment = await req.context.models.account_payment.update(
       {
         acc_saldo: saldoAccPayment,
@@ -29,7 +29,7 @@ const topUp = async (req, res) => {
       }
     );
 
-    const saldoAccBank = accBank.dataValues.baac_saldo - amount;
+    const saldoAccBank = parseInt(accBank.dataValues.baac_saldo) - amount;
     const updateAccBank = await req.context.models.bank_account.update(
       {
         baac_saldo: saldoAccBank,
@@ -56,6 +56,59 @@ const topUp = async (req, res) => {
   }
 };
 
+const payOrder = async (req, res) => {
+  try {
+    const { fromAcc, orderName, pinAcc, amount } = req.body;
+
+    const accPay = await req.context.models.account_payment.findByPk({
+      where: { account_number: fromAcc },
+    });
+    if (parseInt(accPay.dataValues.acc_pin_number) !== parseInt(pinAcc)) {
+      return res.send({ message: "Pin anda salah" });
+    }
+    if (parseInt(accPay.dataValues.acc_saldo) < parseInt(amount)) {
+      return res.send({ message: "Saldo Anda Tidak Cukup" });
+    }
+
+    const saldoOrder = parseInt(accPay.dataValues.acc_saldo) - amount;
+    const updateSaldoOrder = await req.context.models.account_payment.update(
+      {
+        acc_saldo: saldoOrder,
+      },
+      {
+        where: {
+          acc_number: accPay,
+        },
+      }
+    );
+
+    /*
+    const bonusPoint = await req.context.models.account_payment.findByPk({
+      where: { account_number: fromAcc },
+    });
+    if (amount >= 100000) {
+      bonusPoint = accPay.dataValues.acc_total_point + 100;
+    }
+    */
+    const makeOrder = await req.context.models.payment_transaction.create({
+      payt_order_number: orderName,
+      acc_number: accPay,
+      payt_debet: 0,
+      payt_credit: amount,
+      payt_type: "Order",
+    });
+
+    return res.send({
+      message: "Order Berhasil",
+      payment: makeOrder,
+      // bonusPoint,
+    });
+  } catch (error) {
+    return res.sendStatus(404);
+  }
+};
+
 export default {
   topUp,
+  payOrder,
 };
