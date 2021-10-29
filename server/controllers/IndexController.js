@@ -1,11 +1,17 @@
 import HouseCtrl from "./HouseController";
 import HouseImageCtrl from "./HouseImageController";
 import HouseReviewCtrl from "./HouseReviewController";
-import HouseBedroom from "./HouseBedroom";
+import HouseBedroomCtrl from "./HouseBedroomController";
+import HostedCtrl from "./HostedController";
+import ReserveCtrl from "./ReserveController";
+import ReserveLineCtrl from "./ReserveLineController";
 
 export default {
   HouseCtrl,
   HouseImageCtrl,
   HouseReviewCtrl,
-  HouseBedroom
+  HouseBedroomCtrl,
+  HostedCtrl,
+  ReserveCtrl,
+  ReserveLineCtrl
 }

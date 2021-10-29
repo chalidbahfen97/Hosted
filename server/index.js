@@ -8,6 +8,7 @@ import models, { sequelize } from "./models/indexModels";
 
 // call routes
 import routes from "./routes/IndexRoute"
+import middleware from "./helpers/middleware";
 
 const port = process.env.PORT || 1337;
 
@@ -30,7 +31,11 @@ app.use(async (req, res, next) => {
   next();
 });
 
+app.use(process.env.URL_DOMAIN + "/auth", routes.AuthRoute);
 app.use(process.env.URL_API + "/houses", routes.HouseRoute);
+app.use(process.env.URL_API + "/reserve", routes.ReserveRoute)
+app.use(middleware.handleError);
+app.use(middleware.notFound);
 
 const dropDatabaseSync = false;
 sequelize.sync({ force: dropDatabaseSync })

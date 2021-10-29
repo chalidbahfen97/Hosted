@@ -36,6 +36,7 @@ const findHouseById = async (req, res, next) => {
 }
 
 const createHouse = async (req, res) => {
+  const { hosted_acc } = req.hosted;
   //process.cwd return value working directory
   // __dir return value module directory
   const uploadDir = process.cwd() + '/storages/';
@@ -98,8 +99,8 @@ const createHouse = async (req, res) => {
         house_latitude: fields.house_latitude,
         house_longitude: fields.house_longitude,
         house_offer: fields.house_offer,
-        house_approval: fields.house_approval,
-        house_hosted_account: fields.hosted_account
+        house_approval: false,
+        house_hosted_account: hosted_acc
       });
 
       const imageSize = files.uploadFile.size;
@@ -195,6 +196,7 @@ const deleteHouse = async (req, res) => {
 }
 
 const createHouseImage = async (req, res, next) => {
+  const { hosted_acc } = req.hosted;
   try {
     const multiPart = await UpDownloadHelper.uploadMultipleFile(req);
     const { files, fields, status: { status } } = multiPart;
@@ -216,8 +218,8 @@ const createHouseImage = async (req, res, next) => {
           house_latitude: fields.house_latitude,
           house_longitude: fields.house_longitude,
           house_offer: fields.house_offer,
-          house_approval: fields.house_approval,
-          house_hosted_account: fields.hosted_account
+          house_approval: false,
+          house_hosted_account: hosted_acc
         });
 
         const houseId = resultHouse.dataValues.house_id

@@ -23,8 +23,9 @@ const findReviewsByHouseId = async (req, res) => {
 }
 
 const createHouseReview = async (req, res) => {
-  const { houseId, userId } = req.query;
-  const { hore_comments, hore_rating, hore_user_id } = req.body;
+  const { userId } = req.user;
+  const { houseId } = req.params;
+  const { hore_comments, hore_rating } = req.body;
 
   try {
     const isReviewExist = await req.context.models.houses_reviews.findOne({
@@ -49,8 +50,9 @@ const createHouseReview = async (req, res) => {
 }
 
 const updateHouseReview = async (req, res) => {
-  const { houseId, userId } = req.query;
-  const { hore_comments, hore_rating, hore_user_id } = req.body;
+  const { userId } = req.user;
+  const { houseId } = req.params;
+  const { hore_comments, hore_rating } = req.body;
 
   try {
     const result = await req.context.models.houses_reviews.update(
@@ -72,7 +74,8 @@ const updateHouseReview = async (req, res) => {
 }
 
 const deleteHouseReview = async (req, res) => {
-  const { houseId, userId } = req.query;
+  const { userId } = req.user;
+  const { houseId } = req.params;
 
   try {
     const result = await req.context.models.houses_reviews.destroy({
