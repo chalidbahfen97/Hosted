@@ -1,10 +1,8 @@
 import { Router } from "express";
-
-
-const auth = require ("../helpers/auth");
+import authJWT from "../helpers/authJWT";
 
 const router = Router();
 
-router.post("/login",auth.authenticate,auth.login);
+router.post("/sign-in", authJWT.authenticate, authJWT.login);
 
 export default router;

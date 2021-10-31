@@ -1,17 +1,17 @@
 import { Router } from "express";
-import IndexController from "../controller/IndexController";
+import IndexController from "../controllers/IndexController";
 
 const router = Router();
 
-router.get("/rawSQL",IndexController.BankController.findBankBySQL);
-router.get("/",IndexController.BankController.findAllRows);
-router.get("/:id",IndexController.BankController.findRowById);
+router.get("/rawSQL", IndexController.BankCtrl.findBankBySQL);
+router.get("/", IndexController.BankCtrl.findAllRows);
+router.get("/:id", IndexController.BankCtrl.findRowById);
 
 //create
-router.post("/",IndexController.BankController.createRow);
+router.post("/", IndexController.BankCtrl.createRow);
 // put
-router.put("/:id",IndexController.BankController.updateRow);
+router.put("/:id", IndexController.BankCtrl.updateRow);
 // delete
-router.delete("/:id",IndexController.BankController.deleteRow);
+router.delete("/:id", IndexController.BankCtrl.deleteRow);
 
 export default router;

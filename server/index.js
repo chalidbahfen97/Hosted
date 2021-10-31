@@ -32,23 +32,18 @@ app.use(async (req, res, next) => {
   next();
 });
 
-// app.use("/hosted/", (req, res) => {
-//   res.send("makes the best moment with hosted");
-// });
-
 // call routes
-app.post(
-  process.env.URL_DOMAIN + "/login",
-  authJWT.authenticate,
-  authJWT.login
-);
-
-app.get(process.env.URL_DOMAIN + "/me", authJWT.ensureAdmin, (req, res) => {
-  res.json("coo");
-});
-
+// auth
+app.use(process.env.URL_DOMAIN + "/auth", routes.AuthRoute);
+// user
+app.use(process.env.URL_API + "/users", routes.UserRoute);
+// bank
 app.use(process.env.URL_API + "/bank", routes.BankRoute);
-app.use(process.env.URL_API + "/users", routes.UsersRoute);
+// houses
+app.use(process.env.URL_API + "/houses", routes.HouseRoute);
+// reserve
+app.use(process.env.URL_API + "/reserve", routes.ReserveRoute)
+
 
 //use middleware to handle error from others modules
 app.use(middleware.handleError);

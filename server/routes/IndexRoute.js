@@ -1,7 +1,13 @@
 import BankRoute from './BankRoute';
-import UsersRoute from './UsersRoute';
+import UserRoute from './UsersRoute';
+import HouseRoute from "./HouseRoute";
+import ReserveRoute from "./ReserveRoute";
+import AuthRoute from "./AuthRoute";
 
-export default{
-    BankRoute,
-    UsersRoute
+export default {
+  BankRoute,
+  UserRoute,
+  HouseRoute,
+  ReserveRoute,
+  AuthRoute
 }
