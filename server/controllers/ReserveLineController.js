@@ -1,5 +1,26 @@
+const checkReserveLineExist = async (req, res, next) => {
+  const { hove_id } = req.reserve;
+  const { hobedId } = req.body;
+  try {
+    const reserveLine = await req.context.models.houses_reserve_lines.findOne({
+      where: {
+        hrit_hove_id: hove_id,
+        hrit_hobed_id: hobedId
+      }
+    })
+
+    if (reserveLine) return res.status(400).json({
+      message: "Item already exist in cart"
+    });
+
+    next();
+  } catch (error) {
+    return res.status(400).json(error)
+  }
+}
+
 const addReserveLine = async (req, res) => {
-  const { checkIn, checkOut, adult, children, infant, totalNight, hobedId } = await req.body;
+  const { checkIn, checkOut, adult, children, infant, totalNight, hobedId } = req.body;
 
   const bedroom = await req.context.models.houses_bedroom.findAll({
     where: {
@@ -7,7 +28,7 @@ const addReserveLine = async (req, res) => {
     }
   })
 
-  const { hobed_id, hobed_price, hobed_service_fee, hobed_house_id } = bedroom[0];
+  const { hobed_price, hobed_service_fee, hobed_house_id } = bedroom[0];
   const { hove_id } = req.reserve;
   const subTotal = (parseInt(hobed_price) + parseInt(hobed_service_fee)) * totalNight;
 
@@ -30,5 +51,6 @@ const addReserveLine = async (req, res) => {
 }
 
 export default {
+  checkReserveLineExist,
   addReserveLine
 };

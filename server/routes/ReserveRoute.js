@@ -1,22 +1,12 @@
 import { Router } from "express";
-import jwt from "jsonwebtoken";
+import authJWT from "../helpers/authJWT"
 import IndexController from "../controllers/IndexController";
 
 const router = Router();
 
-async function verifyToken(req, res, next) {
-  const accessToken = req.header("Authorization")
-  try {
-    const payload = jwt.verify(accessToken, process.env.TOKEN_SECRET);
-    req.user = payload;
-    next();
-  } catch (error) {
-    return res.status(400).json({ error });
-  }
-}
-
-router.get("/", IndexController.ReserveCtrl.findAllReserve);
-router.get("/:user_id", IndexController.ReserveCtrl.findReserveByUserIdAndStatus);
-router.post("/", verifyToken, IndexController.ReserveCtrl.checkReserveExist, IndexController.ReserveLineCtrl.addReserveLine);
+router.get("/all", IndexController.ReserveCtrl.findAllReserve);
+router.get("/", authJWT.ensureUser, IndexController.ReserveCtrl.findReserveByUserIdAndStatus);
+router.post("/", authJWT.ensureUser, IndexController.ReserveCtrl.checkReserveExist, IndexController.ReserveLineCtrl.checkReserveLineExist, IndexController.ReserveLineCtrl.addReserveLine);
+// router.delete("/")
 
 export default router;
