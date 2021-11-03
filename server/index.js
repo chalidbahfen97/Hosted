@@ -38,6 +38,8 @@ app.get(process.env.URL_DOMAIN + "/me", authJWT.ensureAdmin, (req, res) => {
 app.use(process.env.URL_API + "/bank", routes.bankRoute);
 app.use(process.env.URL_API + "/bank_account", routes.bankAccountRoute);
 app.use(process.env.URL_API + "/users", routes.userRoute);
+
+app.use(process.env.URL_DOMAIN + "/auth", routes.userRoute);
 app.use(process.env.URL_API + "/address", routes.addressRoute);
 app.use(process.env.URL_API + "/hosted", routes.hostedRoute);
 app.use(process.env.URL_API + "/orders", routes.orderRoute);

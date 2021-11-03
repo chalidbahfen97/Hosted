@@ -1,29 +1,36 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const signup = async (req, res) => {
-  const { name, email, password, handphone, role, pin } = req.body;
+const signup = async (req, res , next) => {
+  const { user_name, user_email, user_password, user_handphone, user_role, pin } = req.body;
 
   const salt = await bcrypt.genSalt(10);
-  const hash = await bcrypt.hash(password, salt);
+  const hash = await bcrypt.hash(user_password, salt);
   try {
     const result = await req.context.models.users.create({
-      user_name: name,
-      user_email: email,
+      user_name: user_name,
+      user_email: user_email,
       user_password: hash,
-      user_handphone: handphone,
-      user_role: role,
+      user_handphone: user_handphone,
+      user_role: user_role,
     });
+    req.user_id = result.dataValues.user_id;
+    next();
+  } catch (error) {
+    return res.sendStatus(400);
+  }
+};
 
+const createAccPayment = async (req, res) => {
+  try {
     const payment = await req.context.models.account_payment.create({
-      acc_pin_number: pin,
       acc_saldo: 0,
       acc_total_point: 0,
-      acc_user_id: result.dataValues.user_id,
+      acc_user_id: req.user_id,
     });
-    return res.json({ result, payment });
+    return res.json({ message : "Sign Up Success"});
   } catch (error) {
-    return res.sendStatus(400).send(error);
+    return res.sendStatus(400)
   }
 };
 
@@ -53,4 +60,5 @@ const signin = async (req, res) => {
 export default {
   signup,
   signin,
+  createAccPayment,
 };
